@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta
+			  name="viewport"
+			  content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+		<title>歌单生成</title>
+		<link rel="shortcut icon" href="./favicon.ico" type="image/x-icon" />
+		<link rel="stylesheet" href="./vant/lib/index.css">
+		<script>
+
+		</script>
+		<style>
+
+		</style>
+	</head>
+
+
+	<body>
+<div id="app">
+<van-nav-bar
+  title="山海歌单生成"
+
+></van-nav-bar>
+ <van-cell>
+<div id="outText">
+<ul>
+<li>⛰️山海誓约 表演曲目⛰️</li>
+<li v-for="(item, index) in result">
+{{index+1}}.{{item}}
+</li>
+</ul>
+</div>
+</van-cell>
+  <div style="margin: 16px;">
+    <van-button round block type="primary" onclick="copy()">复制歌单</van-button>
+  </div>
+
+<van-checkbox-group v-model="result" ref="checkboxGroup">
+  <van-cell-group>
+    <van-cell
+      v-for="(item, index) in list"
+      clickable
+      :key="item"
+      :title="` ${item}`"
+      @click="toggle(index)"
+    >
+      <template #right-icon>
+        <van-checkbox :name="item" ref="checkboxes" />
+      </template>
+    </van-cell>
+  </van-cell-group>
+</van-checkbox-group>
+
+  <div style="margin: 16px;">
+    <van-button round block type="info"@click="deleteAll">清空</van-button>
+  </div>
+
+</div>
+	</body>
+</html>
+
+<script type="text/javascript" src="./vant/vue@2.6.11.min.js"></script>
+<script src="./vant/lib/vant.min.js"></script>
+<script src="./js/jquery-2.1.4.js"></script>
+<script>
+	var myApp = new Vue({
+	            el: '#app',
+	            data: function () {
+	                return {
+						//歌单
+						list: [
+						'无名山海（原创曲）'
+						,'清风（原创曲）'
+						,'昼时地平线（昼食彼女 Lunch Girls）'
+						,'青空前奏曲（昼食彼女 Lunch Girls）'
+						,'昼神DAYDREAM（昼食彼女 Lunch Girls）'
+						, '琉璃树（V.V.V.）'
+						, 'アイデンティティ（真っ白なキャンバス）'
+						, '契 －ちぎり-（戦国アニマル極楽浄土）'
+						, 'カンフ一ミラクル~愛~（FES☆TIVE）'
+						, 'OIDEMASE!! ～極楽～（FES☆TIVE）'						
+						, 'サイクロンライフ/风暴人生（iLiFE!）'
+						, 'First Summer/第一个夏天（StarWinK）'						
+						],
+						result: [],
+	                }
+	            }
+				,methods: {
+					toggle(index) {
+					  this.$refs.checkboxes[index].toggle();
+					},
+					 deleteAll() {
+					  this.$refs.checkboxGroup.toggleAll(false);
+					},
+				 },
+	        });
+	
+	        function copy() {
+            var content = $('#outText').text();
+			//去掉空行
+			content = content.replace(/\n{2,}/g, "\n"); 
+			
+            var tempElement = $('<textarea>').val(content).appendTo('body').select();
+            document.execCommand('copy');
+            tempElement.remove();
+            alert('内容已复制到粘贴板！');
+        }
+	
+
+</script>
+
+</body>
+</html>
